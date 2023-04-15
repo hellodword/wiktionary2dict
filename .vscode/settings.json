@@ -1,0 +1,6 @@
+{
+    "remote.localPortHost": "allInterfaces",
+    "editor.formatOnSave": true,
+    "cSpell.language": "en",
+    "cSpell.useGitignore": true
+}
