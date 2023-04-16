@@ -29,9 +29,9 @@ from __future__ import unicode_literals
 
 import struct, zlib, operator, sys, datetime
 
-from ripemd128 import ripemd128
-from cgi import escape
-from pureSalsa20 import Salsa20
+from .ripemd128 import ripemd128
+from html import escape
+from .pureSalsa20 import Salsa20
 
 ZLIB_LEVEL = 9
 
