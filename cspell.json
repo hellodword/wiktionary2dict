@@ -12,6 +12,7 @@
         "pulldom",
         "devcontainer",
         "skywind3000",
-        "writemdict"
+        "writemdict",
+        "mdict"
     ]
 }
