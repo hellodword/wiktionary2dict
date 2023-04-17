@@ -84,7 +84,8 @@ class Wiktionary2Dict:
     def run():
 
         def wikitext_cb(title: str, w: WikiText):
-            if title == 'free':
+            if title in ['a', 'of', 'to', 'in', 'for', 'have', 'you', 'let', 'make', 'get', 'free', 'idiom', 'the', 'be', 'and']:
+                print('title', title)
                 print('span', w.span)
                 print('parameters', w.parameters)
                 print('comments', w.comments)

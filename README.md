@@ -21,6 +21,14 @@
 
 为了保证我个人的 `devcontainer` 的体验，所以上传了 `.vscode` 文件夹，请勿在意。
 
+## ~~Debug~~
+
+```sh
+grep -C 30 -A 6000 '<title>\(free\|idiom\|the\|be\|and\|a\|of\|to\|in\|for\|have\|you\|let\|make\|get\)<' enwiktionary-latest-pages-articles.xml > sample.xml
+
+bzip2 --keep --compress sample.xml
+```
+
 ## Reference
 
 - https://github.com/tatuylonen/wiktextract/blob/master/wiktwords

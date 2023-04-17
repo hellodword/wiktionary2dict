@@ -2,4 +2,6 @@ data.json
 temp*
 *.xml
 *.bz2
-*sample*
+sample.mdx*
+!*.sample.xml
+!*.sample.xml.bz2
