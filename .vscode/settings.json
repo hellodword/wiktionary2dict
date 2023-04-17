@@ -2,5 +2,8 @@
     "remote.localPortHost": "allInterfaces",
     "editor.formatOnSave": true,
     "cSpell.language": "en",
-    "cSpell.useGitignore": true
+    "cSpell.useGitignore": true,
+    "files.associations": {
+        "**/skywind3000/writemdict/*.py": "plaintext"
+    }
 }

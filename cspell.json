@@ -8,6 +8,10 @@
     "words": [
         "wikilinks",
         "wikitextparser",
-        "WikiText"
+        "WikiText",
+        "pulldom",
+        "devcontainer",
+        "skywind3000",
+        "writemdict"
     ]
 }
