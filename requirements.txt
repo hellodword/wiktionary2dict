@@ -1,4 +1,4 @@
--e git+https://github.com/hellodword/mdict-utils@59d972156030b2c0e1723bff226eaea2d01b7c7e#egg=mdict_utils
+-e git+https://github.com/hellodword/mdict-utils@dev#egg=mdict_utils
 regex==2023.3.23
 tqdm==4.65.0
 wcwidth==0.2.6

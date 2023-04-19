@@ -1,3 +1,4 @@
+import datetime
 from wikitextparser import WikiText
 from xml.dom.minidom import Element
 from xml.dom import pulldom
@@ -97,23 +98,59 @@ class Wiktionary2Dict:
                 # print('sections', w.sections)
                 # print('templates', w.templates)
 
-        parse_wiktionary('./data/en.sample.xml.bz2', wikitext_cb=wikitext_cb)
+        # parse_wiktionary('./data/en.sample.xml.bz2', wikitext_cb=wikitext_cb)
 
-        dictionary = {"doe": "a deer, a female deer.",
-                      "ray": "a drop of golden sun.",
-                      "me": "a name I call myself.",
-                      "far": "a long, long way to run."}
+        dictionary = {
+            "doe": "a deer, a female deer.",
+            "0ray": "a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. ",
+            "far": "a long, long way to run.",
+            "me": "中文 麵麪麵 .",
+            "far2": "a long, long way to run.",
+        }
 
         from mdict_utils.base.writemdict import MDictWriter
-        writer = MDictWriter(dictionary,
-                             title="Example Dictionary",
-                             description="This is an example dictionary.",
-                             compression_type=0)
-        with open('./data/sample.mdx', 'wb') as f:
-            writer.write(f)
-        with open('./data/sample.mdx.header', 'wb') as f:
-            writer._write_header(f)
-        with open('./data/sample.mdx.key', 'wb') as f:
-            writer._write_key_sect(f)
-        with open('./data/sample.mdx.record', 'wb') as f:
-            writer._write_record_sect(f)
+        from .writemdict.writemdict import MDictWriter as MDictWriterStream
+
+        # writer = MDictWriter(
+        #     title="Example Dictionary",
+        #     description="This is an example dictionary.",
+        #     compression_type=2,
+        #     is_mdd=False,
+        # )
+
+        # writer._build_offset_table(dictionary)
+        # writer._build_key_blocks()
+        # writer._build_keyb_index()
+        # writer._build_record_blocks()
+        # writer._build_recordb_index()
+        # with open('./data/sample.mdx', 'wb') as f:
+        #     writer.write(f)
+
+        with open('./data/sample.mdx.1', 'wb') as output_header, open('./data/sample.mdx.2', 'wb') as output_2, open('./data/sample.mdx.3', 'wb') as output_key_block_body_body, open('./data/sample.mdx.4', 'wb') as output_4, open('./data/sample.mdx.5', 'wb') as output_record_block_body_body:
+            ws = MDictWriterStream(
+                title="Example Dictionary",
+                description="This is an example dictionary.",
+                output_key_block_body_body=output_key_block_body_body,
+                output_record_block_body_body=output_record_block_body_body,
+                is_mdd=False,
+            )
+            for k in dictionary:
+                ws.add({k: dictionary[k]})
+
+            ws.commit()
+            ws.write_1_header(output_header)
+            ws.write_2_key_preamble_and_index_and_block_body_header(output_2)
+            ws.write_4_record_preamble_and_block_body_header(output_4)
+
+        mergeFiles('./data/sample.mdx', ['./data/sample.mdx.1', './data/sample.mdx.2',
+                   './data/sample.mdx.3', './data/sample.mdx.4', './data/sample.mdx.5'])
+
+
+def mergeFiles(out: str, ins: list):
+    BLOCKSIZE = 4096
+    BLOCKS = 1024
+    chunk = BLOCKS * BLOCKSIZE
+    with open(out, "wb") as o:
+        for fname in ins:
+            with open(fname, "rb") as i:
+                o.write(i.read(chunk))
