@@ -30,7 +30,7 @@ grep -B 30 -A 6000 '<title>\(free\|idiom\|the\|be\|and\|a\|of\|to\|in\|for\|have
 
 bzip2 --keep --compress sample.xml
 
-time -p docker exec --user 1000 -it -w /workspaces/wiktionary2dict <devcontainer> make run
+time -p docker exec --user 1000 -it -w /workspaces/wiktionary2dict <devcontainer> python -m wiktionary2dict data/en.sample.xml 'Wiktionary English 2023' 'sample'
 
 wget https://dumps.wikimedia.org/enwiktionary/latest/enwiktionary-latest-pages-articles.xml.bz2
 
