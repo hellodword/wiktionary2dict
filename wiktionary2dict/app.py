@@ -1,4 +1,7 @@
-import datetime
+from .writemdict.writemdict import MDictWriter as MDictWriterStream
+
+from html import escape
+from collections import defaultdict
 from wikitextparser import WikiText
 from xml.dom.minidom import Element
 from xml.dom import pulldom
@@ -32,7 +35,7 @@ def getElementTextByTagName(node: Element, name: str) -> str | None:
 def parse_wiktionary(
     path: str,
     redirect_cb: Callable[[str, str], any] = None,
-    wikitext_cb: Callable[[str, WikiText], any] = None,
+    wikitext_cb: Callable[[str, WikiText, str], any] = None,
 ):
 
     def redirect_handle(title: str, redirect: str):
@@ -51,7 +54,7 @@ def parse_wiktionary(
             return None
 
         if wikitext_cb is not None:
-            wikitext_cb(title, w)
+            wikitext_cb(title, w, text)
 
     def page_handle(node: Element) -> Tuple[str | None, str | None, str | WikiText | None]:
         redirects = node.getElementsByTagName('redirect')
@@ -79,73 +82,6 @@ def parse_wiktionary(
                     page_handle(node)
 
 
-class Wiktionary2Dict:
-
-    @staticmethod
-    def run():
-
-        def wikitext_cb(title: str, w: WikiText):
-            if title in ['a', 'of', 'to', 'in', 'for', 'have', 'you', 'let', 'make', 'get', 'free', 'idiom', 'the', 'be', 'and']:
-                print('title', title)
-                print('span', w.span)
-                print('parameters', w.parameters)
-                print('comments', w.comments)
-                print('external_links', w.external_links)
-                print('wikilinks', w.wikilinks)
-                print('parser_functions', w.parser_functions)
-                print('tables', w.tables)
-                print('_extension_tags', w._extension_tags)
-                # print('sections', w.sections)
-                # print('templates', w.templates)
-
-        # parse_wiktionary('./data/en.sample.xml.bz2', wikitext_cb=wikitext_cb)
-
-        dictionary = {
-            "doe": "a deer, a female deer.",
-            "0ray": "a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. a drop of golden sun. ",
-            "far": "a long, long way to run.",
-            "me": "中文 麵麪麵 .",
-            "far2": "a long, long way to run.",
-        }
-
-        from mdict_utils.base.writemdict import MDictWriter
-        from .writemdict.writemdict import MDictWriter as MDictWriterStream
-
-        # writer = MDictWriter(
-        #     title="Example Dictionary",
-        #     description="This is an example dictionary.",
-        #     compression_type=2,
-        #     is_mdd=False,
-        # )
-
-        # writer._build_offset_table(dictionary)
-        # writer._build_key_blocks()
-        # writer._build_keyb_index()
-        # writer._build_record_blocks()
-        # writer._build_recordb_index()
-        # with open('./data/sample.mdx', 'wb') as f:
-        #     writer.write(f)
-
-        with open('./data/sample.mdx.1', 'wb') as output_header, open('./data/sample.mdx.2', 'wb') as output_2, open('./data/sample.mdx.3', 'wb') as output_key_block_body_body, open('./data/sample.mdx.4', 'wb') as output_4, open('./data/sample.mdx.5', 'wb') as output_record_block_body_body:
-            ws = MDictWriterStream(
-                title="Example Dictionary",
-                description="This is an example dictionary.",
-                output_key_block_body_body=output_key_block_body_body,
-                output_record_block_body_body=output_record_block_body_body,
-                is_mdd=False,
-            )
-            for k in dictionary:
-                ws.add({k: dictionary[k]})
-
-            ws.commit()
-            ws.write_1_header(output_header)
-            ws.write_2_key_preamble_and_index_and_block_body_header(output_2)
-            ws.write_4_record_preamble_and_block_body_header(output_4)
-
-        mergeFiles('./data/sample.mdx', ['./data/sample.mdx.1', './data/sample.mdx.2',
-                   './data/sample.mdx.3', './data/sample.mdx.4', './data/sample.mdx.5'])
-
-
 def mergeFiles(out: str, ins: list):
     BLOCKSIZE = 4096
     BLOCKS = 1024
@@ -153,4 +89,53 @@ def mergeFiles(out: str, ins: list):
     with open(out, "wb") as o:
         for fname in ins:
             with open(fname, "rb") as i:
-                o.write(i.read(chunk))
+                b = i.read(chunk)
+                while len(b) > 0:
+                    o.write(b)
+                    b = i.read(chunk)
+
+
+class Wiktionary2Dict:
+
+    @staticmethod
+    def run():
+
+        with open('./data/sample.mdx.1', 'wb') as output_header, open('./data/sample.mdx.2', 'wb') as output_2, open('./data/sample.mdx.3', 'wb') as output_key_block_body_body, open('./data/sample.mdx.4', 'wb') as output_4, open('./data/sample.mdx.5', 'wb') as output_record_block_body_body:
+            ws = MDictWriterStream(
+                title="Wiktionary English",
+                description="This is an example dictionary.",
+                output_key_block_body_body=output_key_block_body_body,
+                output_record_block_body_body=output_record_block_body_body,
+                is_mdd=False,
+            )
+
+            # for example
+            def gen_html(w: WikiText) -> str:
+                h = ''
+                sections2 = w.get_sections(include_subsections=True, level=2)
+                for s2 in sections2:
+                    h += f'<h2>{escape(s2.title)}</h2>'
+                    sections3 = s2.get_sections(include_subsections=False, level=3)
+                    for s3 in sections3:
+                        h += f'<h3>{escape(s3.title)}</h3>'
+                return h
+
+            def wikitext_cb(title: str, w: WikiText, text: str):
+                ws.add({title: gen_html(w)})
+                return
+
+            parse_wiktionary('./data/en.sample.xml.bz2', wikitext_cb=wikitext_cb)
+
+            ws.commit()
+            ws.write_1_header(output_header)
+            ws.write_2_key_preamble_and_index_and_block_body_header(output_2)
+            ws.write_4_record_preamble_and_block_body_header(output_4)
+
+        mergeFiles('./data/sample.mdx',
+                   [
+                       './data/sample.mdx.1',
+                       './data/sample.mdx.2',
+                       './data/sample.mdx.3',
+                       './data/sample.mdx.4',
+                       './data/sample.mdx.5',
+                   ])

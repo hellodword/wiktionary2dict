@@ -14,6 +14,16 @@
         "skywind3000",
         "writemdict",
         "mdict",
-        "enwiktionary"
+        "enwiktionary",
+        "mwlib",
+        "_build_keyb_index",
+        "_build_recordb_index",
+        "gevent",
+        "odfpy",
+        "reportlab"
+    ],
+    "ignorePaths": [
+        "wiktionary2dict/writemdict",
+        "src"
     ]
 }

@@ -113,3 +113,4 @@ config.env
 *.mdd
 
 src
+bin

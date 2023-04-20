@@ -28,6 +28,19 @@
 grep -C 30 -A 6000 '<title>\(free\|idiom\|the\|be\|and\|a\|of\|to\|in\|for\|have\|you\|let\|make\|get\)<' enwiktionary-latest-pages-articles.xml > sample.xml
 
 bzip2 --keep --compress sample.xml
+
+time -p docker exec --user 1000 -it -w /workspaces/wiktionary2dict <devcontainer> make run
+```
+
+### ~~mwlib~~
+
+```sh
+# install re2c
+wget https://github.com/skvadrik/re2c/releases/download/3.0/re2c-3.0.tar.xz
+
+pip install six py gevent odfpy future reportlab toml
+
+pip install -e git+https://github.com/pediapress/mwlib@python3_upgrade#egg=mwlib
 ```
 
 ## Reference
@@ -43,3 +56,15 @@ bzip2 --keep --compress sample.xml
 - https://github.com/skywind3000/ECDICT/blob/bc6b25957f1dbb745768bb734b20a613edf7fdbe/stardict.py#L1433
 - https://github.com/Dictionaryphile/All_Dictionaries
 - https://github.com/goldendict/goldendict/wiki/Supported-Dictionary-Formats
+- https://github.com/TrueBrain/wikitexthtml
+- https://github.com/lunaroyster/vue-wikitext
+- https://pypi.org/project/mwlib/
+- https://stackoverflow.com/a/28783167
+- https://github.com/wikimedia/pywikibot
+- https://github.com/earwig/mwparserfromhell
+- https://mwlib.readthedocs.io/en/latest/commands.html#the-mw-render-command
+- https://github.com/derhuerst/render-wikipedia-article
+- https://github.com/dustin/go-wikiparse
+- https://github.com/wikimedia/mediawiki/blob/a4da635e8a2f00fd317cc458b6787cba17efc452/maintenance/parse.php#L83-L89
+- https://github.com/wikimedia/mediawiki-services-parsoid/tree/master/src/Wt2Html
+- https://github.com/wincent/wikitext
