@@ -197,8 +197,10 @@ class Wiktionary2Dict:
             items.sort(key=operator.itemgetter(0))
 
             for key, offset in items:
+                # TODO calculate seek
                 output_record_temp.seek(0, 0)
                 output_record_temp.seek(offset[0], 0)
+
                 record = output_record_temp.read(offset[1])
                 assert (len(record) == offset[1])
                 ws.add({key: record.decode()})

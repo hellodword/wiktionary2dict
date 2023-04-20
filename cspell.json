@@ -4,7 +4,12 @@
     "version": "0.2",
     // language - current active spelling language
     "language": "en",
-    // words - list of words to be always considered correct
+    "ignorePaths": [
+        "wiktionary2dict/writemdict",
+        "src"
+    ],
+    "useGitignore": true,
+    // words - list of words to be always considered correct,
     "words": [
         "wikilinks",
         "wikitextparser",
@@ -15,6 +20,7 @@
         "writemdict",
         "mdict",
         "enwiktionary",
+        "zhwiktionary",
         "mwlib",
         "_build_keyb_index",
         "_build_recordb_index",
@@ -22,9 +28,5 @@
         "odfpy",
         "reportlab",
         "goldendict"
-    ],
-    "ignorePaths": [
-        "wiktionary2dict/writemdict",
-        "src"
     ]
 }

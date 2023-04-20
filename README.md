@@ -18,11 +18,6 @@
 - record section 的 block 可以单独一个文件 output_record_block
 - `zlib.compress` streaming
 
-
-## About `.vscode`
-
-为了保证我个人的 `devcontainer` 的体验，所以上传了 `.vscode` 文件夹，请勿在意。
-
 ## ~~Debug~~
 
 ```sh
@@ -31,6 +26,8 @@ grep -B 30 -A 6000 '<title>\(free\|idiom\|the\|be\|and\|a\|of\|to\|in\|for\|have
 bzip2 --keep --compress sample.xml
 
 time -p docker exec --user 1000 -it -w /workspaces/wiktionary2dict <devcontainer> python -m wiktionary2dict data/en.sample.xml 'Wiktionary English 2023' 'sample'
+# zhwiktionary 18min
+# enwiktionary 73min
 
 wget https://dumps.wikimedia.org/enwiktionary/latest/enwiktionary-latest-pages-articles.xml.bz2
 
