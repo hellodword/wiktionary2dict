@@ -1,4 +1,9 @@
 from .app import Wiktionary2Dict
 
-if __name__ == '__main__':
+
+def main():
     Wiktionary2Dict.run()
+
+
+if __name__ == '__main__':
+    main()

@@ -18,6 +18,16 @@
 - record section 的 block 可以单独一个文件 output_record_block
 - `zlib.compress` streaming
 
+## Usage
+
+```sh
+pip install -e git+https://github.com/hellodword/wiktionary2dict@master#egg=wiktionary2dict
+
+wget https://dumps.wikimedia.org/simplewiktionary/latest/simplewiktionary-latest-pages-articles.xml.bz2
+
+wiktionary2dict simplewiktionary-latest-pages-articles.xml.bz2 'Wiktionary Simple English 2023' 'simplewiktionary.mdx'
+```
+
 ## ~~Debug~~
 
 ```sh
@@ -25,14 +35,19 @@ grep -B 30 -A 6000 '<title>\(free\|idiom\|the\|be\|and\|a\|of\|to\|in\|for\|have
 
 bzip2 --keep --compress sample.xml
 
-time -p docker exec --user 1000 -it -w /workspaces/wiktionary2dict <devcontainer> python -m wiktionary2dict data/en.sample.xml 'Wiktionary English 2023' 'sample'
+time -p docker exec --user 1000 -it -w /workspaces/wiktionary2dict <devcontainer> python -m wiktionary2dict data/en.sample.xml 'Wiktionary English 2023' 'data/sample.mdx'
 # zhwiktionary 18min
 # enwiktionary 73min
 
-wget https://dumps.wikimedia.org/enwiktionary/latest/enwiktionary-latest-pages-articles.xml.bz2
-
 # match special pages
-grep -B 1 '<ns>[1-9\-]' data/enwiktionary-latest-pages-articles.xml | grep -o '<title>[^:]\+:' | sort -nr | uniq
+grep -B 1 '<ns>[1-9\-]' data/enwiktionary-latest-pages-articles.xml | grep -o '<title>[^:]\+:' | sort -n | uniq
+
+# list all wiktionary lang
+curl -sSL https://dumps.wikimedia.org/backup-index.html | grep -oP '[a-z]+wiktionary(?=[^a-zA-Z])' | sort -n | uniq
+
+# list all wiktionary lang and size
+curl -sSL https://dumps.wikimedia.org/backup-index.html | grep -oP '[a-z]+wiktionary(?=[^a-zA-Z])' | sort -n | uniq \
+    | xargs -i sh -c 'echo {} `curl -sSL -f -I https://dumps.wikimedia.org/{}/latest/{}-latest-pages-articles.xml.bz2 | grep -oP "(?<=Content-Length: )\d+"`'
 ```
 
 ### ~~mwlib~~

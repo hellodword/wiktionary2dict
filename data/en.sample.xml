@@ -38318,4 +38318,75 @@ From {{inh|zea|dum|hant}}, from {{inh|zea|odt|hant}}, from {{inh|zea|gem-pro|*ha
   </page>
 
 
+  <page>
+    <title>Template:l-self-lite</title>
+    <ns>10</ns>
+    <id>8535532</id>
+    <revision>
+      <id>71079208</id>
+      <parentid>71079207</parentid>
+      <timestamp>2023-01-28T05:41:06Z</timestamp>
+      <contributor>
+        <ip>70.172.194.25</ip>
+      </contributor>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="1730" xml:space="preserve">&lt;span class=&quot;{{{sc|{{#ifeq:{{{1}}}|ang|Latinx|Latn}}}}}&quot; lang=&quot;{{{1}}}&quot;&gt;&lt;!-- display link? --&gt;{{#ifeq:{{{2}}}|{{FULLPAGENAME}}
+|&lt;!-- no link, text only --&gt;&lt;strong class=&quot;selflink&quot;&gt;{{#if:{{{3|}}}|{{{3}}}|{{{2}}}}}&lt;/strong&gt;
+|&lt;!-- yes, display link --&gt;[[{{{2}}}#{{#switch:{{{1}}}
+&lt;!--
+  LIST OF LANGUAGE NAMES
+  This doesn't list all languages in existence - just the ones which are required for the very long pages in which this template is used.
+--&gt;
+|bar=Bavarian
+|chk=Chuukese
+|co=Corsican
+|cs=Czech
+|da=Danish
+|dsb=Lower Sorbian
+|egl=Emilian
+|en=English
+|enm=Middle English
+|fi=Finnish
+|fr=French
+|fy=West Frisian
+|ga=Irish
+|gd=Scottish Gaelic
+|gmw-cfr=Central Franconian
+|hsb=Upper Sorbian
+|ig=Igbo
+|it=Italian
+|ja=Japanese
+|mhn=Mòcheno
+|mnk=Mandinka
+|mqs=West Makian
+|nap=Neapolitan
+|nb=Norwegian Bokmål
+|nl=Dutch
+|nn=Norwegian Nynorsk
+|non=Old Norse
+|pdc=Pennsylvania German
+|rom=Romani
+|scn=Sicilian
+|sm=Samoan
+|sv=Swedish
+|sw=Swahili
+|tkl=Tokelauan
+|wes=Cameroon Pidgin
+|yo=Yoruba
+|za=Zhuang
+|#default=&lt;includeonly&gt;{{error|Unknown language code &quot;{{{1}}}&quot;. Edit [[Template:l-self-lite]] and add it to the &quot;List of Language Names&quot;.}}&lt;/includeonly&gt;
+}}|{{#if:{{{3|}}}|{{{3}}}|{{{2}}}}}]]}}&lt;/span&gt;&lt;!--
+--&gt;{{#if:{{{g|{{{g1|}}}}}}|&amp;#32;{{g-lite|{{{g|{{{g1|}}}}}}|{{{g2|}}}|{{{g3|}}}}}|}}&lt;!--
+--&gt;{{#if:{{{tr|}}}{{{t|}}}{{{4|}}}{{{pos|}}}{{{lit|}}}|&lt;!--
+----&gt;&amp;#32;(&lt;!--
+----&gt;{{#if:{{{tr|}}}|{{{tr}}}{{#if:{{{t|}}}{{{4|}}}{{{pos|}}}{{{lit|}}}|, &lt;nowiki/&gt;}}|}}&lt;!--
+----&gt;{{#if:{{{t|}}}{{{4|}}}|“{{{t|{{{4}}}}}}”{{#if:{{{pos|}}}{{{lit|}}}|, &lt;nowiki/&gt;}}|}}&lt;!--
+----&gt;{{#if:{{{pos|}}}|{{{pos|}}}{{#if:{{{lit|}}}|, &lt;nowiki/&gt;}}|}}&lt;!--
+----&gt;{{#if:{{{lit|}}}|literally “{{{lit}}}”|}}&lt;!--
+--&gt;)}}&lt;noinclude&gt;{{documentation}}&lt;/noinclude&gt;</text>
+      <sha1>t4mvp4a1aiopmouawv32jmr651vtv0i</sha1>
+    </revision>
+  </page>
+
 </mediawiki>

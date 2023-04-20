@@ -4,4 +4,4 @@ temp*
 *.bz2
 sample.mdx*
 !*.sample.xml
-!*.sample.xml.bz2
+*.mdx.*
