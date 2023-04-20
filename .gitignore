@@ -108,6 +108,7 @@ config.env
 *.key
 *.pem
 
+.vscode/
 
 *.mdx
 *.mdd
