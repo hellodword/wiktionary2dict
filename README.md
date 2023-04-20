@@ -9,6 +9,8 @@
 
 ## mdx/mdd streaming
 
+> 去掉排序后，mdx 无法在 Goldendict Desktop 之外的词典 APP 使用，所以先把解析后的数据放进数据库或者连同偏移存储在文件里，再读取生成
+
 - header 固定，单独文件 output_header
 - key section 的 `preamble` 和 `preamble_checksum = zlib.adler32(preamble)` 位置和长度固定，可以一直更改（于是可能可以任务暂停/继续？），单独文件 output_key_preamble
 - key section 的 block 可以单独一个文件 output_key_block
@@ -16,9 +18,6 @@
 - record section 的 block 可以单独一个文件 output_record_block
 - `zlib.compress` streaming
 
-### Know issue
-
-- 去掉排序后，mdx 无法在 Goldendict Desktop 之外的词典 APP 使用
 
 ## About `.vscode`
 
