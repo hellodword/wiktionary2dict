@@ -20,7 +20,8 @@
         "_build_recordb_index",
         "gevent",
         "odfpy",
-        "reportlab"
+        "reportlab",
+        "goldendict"
     ],
     "ignorePaths": [
         "wiktionary2dict/writemdict",

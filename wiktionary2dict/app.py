@@ -43,9 +43,14 @@ def parse_wiktionary(
             redirect_cb(title, redirect)
         return None
 
+    def template_handle(title: str, text: str):
+        # TODO
+        return None
+
     def wikitext_handle(title: str, text: str):
-        if title is None:
+        if title is None or title == '':
             return None
+
         if text is None:
             return None
 
@@ -57,20 +62,47 @@ def parse_wiktionary(
             wikitext_cb(title, w, text)
 
     def page_handle(node: Element) -> Tuple[str | None, str | None, str | WikiText | None]:
-        redirects = node.getElementsByTagName('redirect')
-        if redirects.length > 0:
-            return redirect_handle(
-                getElementTextByTagName(node, 'title'),
-                redirects[0].getAttribute('title'),
-            )
+        ns = getElementTextByTagName(node, 'ns')
+        if ns is None:
+            return
 
-        model = getElementTextByTagName(node, 'model')
-        if model == 'wikitext':
-            return wikitext_handle(
-                getElementTextByTagName(node, 'title'),
+        title = getElementTextByTagName(node, 'title')
+        if title is None or title == '':
+            return
+
+        if ns == '0':
+            redirects = node.getElementsByTagName('redirect')
+            if redirects.length > 0:
+                return redirect_handle(
+                    title,
+                    redirects[0].getAttribute('title'),
+                )
+
+            model = getElementTextByTagName(node, 'model')
+            if model == 'wikitext':
+                return wikitext_handle(
+                    title,
+                    getElementTextByTagName(node, 'text'),
+                )
+        elif ns == '10':
+            return template_handle(
+                title,
                 getElementTextByTagName(node, 'text'),
             )
-        return model, getElementTextByTagName(node, 'title'), None
+        elif ns == '8':
+            # TODO MediaWiki
+            return
+        elif ns == '14':
+            # TODO Category
+            return
+        elif ns == '100':
+            # TODO Appendix
+            return
+        else:
+            # TODO
+            return
+
+        return
 
     with BZ2OrXml(path) as f:
         events = pulldom.parse(f)

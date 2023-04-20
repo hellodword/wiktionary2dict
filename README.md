@@ -4,8 +4,7 @@
 
 - [x] [sax / pulldom](https://web.archive.org/web/20150108212346/https://www.ibm.com/developerworks/xml/library/x-tipulldom/index.html)
 - [x] [bz2 streaming](https://stackoverflow.com/questions/37172679/reading-first-lines-of-bz2-files-in-python)
-- [ ] wikitext
-- [ ] [mdx/mdd streaming](#mdxmdd-streaming)
+- [x] [mdx/mdd streaming](#mdxmdd-streaming)
 - [ ] parallel
 
 ## mdx/mdd streaming
@@ -17,6 +16,9 @@
 - record section 的 block 可以单独一个文件 output_record_block
 - `zlib.compress` streaming
 
+### Know issue
+
+- 去掉排序后，mdx 无法在 Goldendict Desktop 之外的词典 APP 使用
 
 ## About `.vscode`
 
@@ -25,11 +27,16 @@
 ## ~~Debug~~
 
 ```sh
-grep -C 30 -A 6000 '<title>\(free\|idiom\|the\|be\|and\|a\|of\|to\|in\|for\|have\|you\|let\|make\|get\)<' enwiktionary-latest-pages-articles.xml > sample.xml
+grep -B 30 -A 6000 '<title>\(free\|idiom\|the\|be\|and\|a\|of\|to\|in\|for\|have\|you\|let\|make\|get\)<' enwiktionary-latest-pages-articles.xml > sample.xml
 
 bzip2 --keep --compress sample.xml
 
 time -p docker exec --user 1000 -it -w /workspaces/wiktionary2dict <devcontainer> make run
+
+wget https://dumps.wikimedia.org/enwiktionary/latest/enwiktionary-latest-pages-articles.xml.bz2
+
+# match special pages
+grep -B 1 '<ns>[1-9\-]' data/enwiktionary-latest-pages-articles.xml | grep -o '<title>[^:]\+:' | sort -nr | uniq
 ```
 
 ### ~~mwlib~~
